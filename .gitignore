@@ -3,3 +3,4 @@ src
 working
 Cargo.toml
 Cargo.lock
+*.swp
