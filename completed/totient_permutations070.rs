@@ -53,7 +53,6 @@ fn totient(n: usize) -> usize {
         0 => 0,
         1 => 1,
         // n prime => Lehmer's conjecture
-        // true for all x < 10^20
         n if SIEVE[n] => n-1,
         // if even
         n if (n & 1) == 0 => {
@@ -82,10 +81,15 @@ fn totient(n: usize) -> usize {
     }
 }
 
-fn is_permutation(x: (usize, usize)) -> bool
+fn is_permutation(a: usize,b:  usize) -> bool
 {
-    let mut a = x.0;
-    let mut b = x.1;
+    // If the digit sum differs, don't check
+    if a % 9 != b % 9 {
+        return false;
+    }
+
+    let mut a = a;
+    let mut b = b;
     let mut a_digits = Vec::new();
     let mut b_digits = Vec::new();
     while a != 0 {
@@ -100,13 +104,14 @@ fn is_permutation(x: (usize, usize)) -> bool
     b_digits.sort();
     a_digits == b_digits
 }
+
 fn main() {
     let mut min = std::f64::INFINITY;
     let mut answer = 1;
-    for n in 2..10_000_000 {
+    for n in 0..MAX {
         let t = totient(n);
 
-        if !is_permutation((n,t)) {
+        if !is_permutation(n,t) {
             continue;
         }
 
